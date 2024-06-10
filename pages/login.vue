@@ -1,13 +1,27 @@
 <script setup>
-// export default {
-//     data: () => ({
-//         visible: false,
-//     }),
-// }
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
 
-function onSubmit(){
-    
+const schema = yup.object({
+    phoneNumber: yup.string().required().matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+    otp: yup.string()
+})
+
+const { defineField, errors, handleSubmit } = useForm({
+    validationSchema: schema
+})
+
+const [phoneNumber, phoneNumberAttrs] = defineField('phoneNumber')
+const [otp, otpAttrs] = defineField('otp')
+
+const onSubmit = handleSubmit(values => {
+  alert(JSON.stringify(values, null, 2));
+});
+
+function submitOTP (){
+
 }
+
 </script>
 
 <template>
@@ -24,21 +38,43 @@ function onSubmit(){
              placeholder="enter your number"
              prepend-inner-icon="mdi-phone"
              variant="outlined"
-             
+             v-model="phoneNumber"
+             v-bind="phoneNumberAttrs"
            ></v-text-field>
-         
+         <span color="red">{{ errors.phoneNumber }}</span>
 
+        <div class="d-flex justify-center">
+            <v-btn type="submit" class="mb-8 mt-4" color="blue" desity="default" rounded="lg" size="large" variant="elevated">
+                Log In
+            </v-btn>
+        </div>
+        <!-- for OTP -->
+        <div >
+                <v-otp-input
+                  v-model="otp"
+                  v-bind="otpAttrs"
+                  name="otp"
+                  focus-all
+                >
+                </v-otp-input>
+        
+                <span>{{ errors.otp }}</span>
+                
+                <div class="d-flex justify-center">
+                    <v-btn
+                      class="my-4 "
+                      color="green-lighten-1"
+                      desity="default"
+                      rounded="lg"
+                      size="large"
+                      type="submit"
+                      variant="elevated"
+                      @click="submitOTP"
+                    >
+                        Enter OTP
+                    </v-btn>
 
-
-
-            <v-card class="mb-5" color="surface-variant" variant="tonal">
-
-            </v-card>
-
-            <div class="d-flex justify-center">
-                <v-btn class="mb-8 " color="blue" desity="default" rounded="lg" size="large" variant="elevated">
-                    Log In
-                </v-btn>
+                </div>
             </div>
 
 
