@@ -17,6 +17,7 @@ export  const getUserandInterceptor = async (endpoint, options= {}) =>{
     const config = {
         ...options,
         headers,
+        
     }
 
     //set base URL
@@ -41,7 +42,8 @@ export  const getUserandInterceptor = async (endpoint, options= {}) =>{
             console.error('Access forbidden - check your permissions');
         }
 
-        const data = response.json()
+        const data = await response.json()
+        console.log(data);
         return data
     } catch (error) {
         console.error('Fetch Interceptor error :: ', error);
