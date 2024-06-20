@@ -49,6 +49,7 @@ catch(error){
 }
 }
 
+
 // for post Interceptor
 export async function postInterceptor(endpoint, options={}){
     const configRun = useRuntimeConfig()
@@ -103,3 +104,4 @@ export async function postInterceptor(endpoint, options={}){
         console.error('Fetch error:', error);
     }
     }
+
